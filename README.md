@@ -1,3 +1,6 @@
 # DATA533_Project1
 
-"Testing to see and error message with the ReadMe" 
+" Andrew -- Testing to see and error message with the ReadMe" 
+# Testing updates
+
+# Craig testing 533 L4 conflict example
