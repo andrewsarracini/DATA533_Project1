@@ -4,13 +4,22 @@ import pandas as pd
 from security import stringHash, reverseHash, check_credentials
 from userprofile import load_user_profiles, save_dataframe_to_csv
 
-# Function to display menu options
-def display_menu():
-    print("Welcome! Choose an option:")
+# Function to display menu options ------------------------------- changed from display_menu to main_menu
+def main_menu():
+    print("Welcome to Housemate! Choose an option:")
     print("1. View Profile Information")
     print("2. Edit Profile")
     print("3. Delete Profile")
     print("4. View available homes")
+    print("5. Logout")
+    
+# Function to display the housemate menu options --------------------- added ---------------
+def housemate_menu(): 
+    print("Choose an option:")
+    print("1. Find a home to rent or purchase based on the recommendation parameters")
+    print("2. Find a home to rent")
+    print("3. Find a home to purchase")
+    print("4. Go back to main menu")
     print("5. Logout")
 
 # Function to view profile information
@@ -58,10 +67,12 @@ def edit_profile(username, df):
     
     return "no_change", new_value  # Return new_value even if no change was made
         
-# Function decorator for delete profile
+# Function decorator for delete profile ------------------------------------------------ apply stringHash func to username so can call upon it later
 def deleter(func):
     def wrapper(username, df):
-        user_profile_index = df.index[df['username'] == username].tolist()
+        hashed_username = stringHash(username)
+        user_profile_index = df.index[df['username'] == hashed_username].tolist()
+        
         if len(user_profile_index) > 0:
             confirmation = input("Are you sure you want to delete your profile? (yes/no): ").lower()
             if confirmation == "yes":
@@ -71,15 +82,22 @@ def deleter(func):
                 print("Profile deletion canceled.")
         else:
             print("No profile information found for this user.")
+        
+        return hashed_username  # Return hashed username for use in the calling code
     return wrapper
 
 # Function to delete profile information (decorated with deleter)
 @deleter
 def delete_profile(username, df):
-    # Remove the profile from the DataFrame
-    user_profile_index = df.index[df['username'] == username].tolist()
-    df.drop(user_profile_index, inplace=True)
-    save_dataframe_to_csv(df, file_path)  # Save to the specified location
+    hashed_username = stringHash(username)
+    user_profile_index = df.index[df['username'] == hashed_username].tolist()
+    
+    if len(user_profile_index) > 0:
+        df.drop(user_profile_index, inplace=True)
+        save_dataframe_to_csv(df, file_path)  # Save to the specified location
+    else:
+        print("No profile information found for this user.")
+
 
 # Load user profiles from CSV file using load_user_profiles from userprofile.py module
 file_path = r'C:\Users\cadla\OneDrive\Desktop\DATA533\Project\housemate\user\user_profiles.csv'
@@ -98,7 +116,7 @@ while True:
 
 # Display menu after successful login
 while True:
-    display_menu()
+    main_menu()
     choice = input("Enter your choice (1-5) or 'q' to quit: ")
 
     if choice == '1':
@@ -114,11 +132,14 @@ while True:
             print("Password has been changed. Please login again.")
             break
     elif choice == '3':
-        # Delete Profile
-        delete_profile(username, user_profiles)  # Utilize the decorated function
+        deleted_user = delete_profile(username, user_profiles)  # Utilize the decorated function
+        if stringHash(username) == deleted_user:
+            print("Profile has been deleted. Please log in again.")
+            break  # Exit the menu loop when the user's profile is deleted ------------------------------ added ------------
     elif choice == '4':
-        # View Available Homes -------------------------------------------------------- incorporate other subpackage here
-        print("View available homes...")
+        if True:
+            housemate_menu() # ----------------------------------------------------------- might need to build out here --------
+        else: continue
     elif choice == '5':
         # Logout
         print("Logging out. Goodbye!")
