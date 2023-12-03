@@ -53,7 +53,7 @@ def reverseHash(hash_value, mapped_values):
 
     Examples
     --------
-    >>> mapped_strings = {}
+    >>> mapped_strings = {} ---------------------------------------------------------------------------remove
     >>> stringHash1 = "This is a test to see what happens"
     >>> stringHash2 = "SensitiveInformationIsHere"
     >>> stringHash3 = "What if there are numbers and symbols too?"
@@ -79,4 +79,14 @@ def reverseHash(hash_value, mapped_values):
 
     return mapped_values.get(hash_value)
 
+# Function to check credentials when logging in
+def check_credentials(username, password, df):
+    if df is not None:
+        # Reverse the user input using stringHash function
+        reversed_username = stringHash(username)
+        reversed_password = stringHash(password)
 
+        # Find matching profile using reversed username and password
+        matching_profile = df[(df['username'] == reversed_username) & (df['password'] == reversed_password)]
+        return not matching_profile.empty
+    return False
