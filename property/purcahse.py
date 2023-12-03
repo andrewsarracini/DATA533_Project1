@@ -9,7 +9,7 @@ class Purchase(Property):
         self.mortgage_term = mortgage_term
         self.interest = interest
 
-    def calculate_mortgage(self, downpay=0.1):
+    def calculate_mortgage(self, downpay=0.15):
         # 10% Downpayment is a PLACEHOLDER for the variable amount
         # Waiting for Profile.downpayment to input into this method
         down_payment = self.price * downpay
@@ -98,12 +98,18 @@ def gen_purchase(n, prop_type):
 
 
 def purchase_recommendation(pur_list, downpay, income, pref_beds):
-    rec_list = []
+    rec_pur_list = []
     for i in range(len(pur_list)):
-        if downpay > (pur_list[i].price * 0.1) and income > pur_list[i].calculate_mortgage() and pref_beds <= pur_list[i].num_beds:
-            rec_list.append(pur_list[i])
+        if downpay > (pur_list[i].price * 0.1) and (income/12) > pur_list[i].calculate_mortgage() and pref_beds <= pur_list[i].num_beds:
+            rec_pur_list.append(pur_list[i])
 
-    return rec_list
+    if rec_pur_list:
+        print(
+            f' **************\nCongratulations! You have {len(rec_pur_list)} recommendations!\n **************')
+
+    if not rec_pur_list:
+        print("You have no recommendations. Consider changing your preferences")
+    return rec_pur_list
 
 
 def view_purchase_list(pur_list):
