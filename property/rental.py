@@ -46,7 +46,7 @@ class RentalTownHome(Rental):
         sqft = random.randint(800, 1800)
         num_beds = random.randint(2, 4)
         num_baths = random.randint(1, 3)
-        rent = random.randint(1900, 2800)
+        rent = random.randint(2000, 3200)
         utilities = random.randint(200, 250)
         super().__init__(sqft, num_beds, num_baths, rent, utilities)
 
@@ -56,7 +56,7 @@ class RentalDuplex(Rental):
         sqft = random.randint(1400, 2000)
         num_beds = random.randint(2, 5)
         num_baths = random.randint(2, 4)
-        rent = random.randint(2400, 3300)
+        rent = random.randint(28000, 3900)
         utilities = random.randint(250, 300)
         super().__init__(sqft, num_beds, num_baths, rent, utilities)
 
@@ -66,7 +66,7 @@ class RentalBungalow(Rental):
         sqft = random.randint(1300, 2400)
         num_beds = random.randint(4, 5)
         num_baths = random.randint(3, 4)
-        rent = random.randint(3200, 4400)
+        rent = random.randint(3400, 4600)
         utilities = random.randint(300, 400)
         super().__init__(sqft, num_beds, num_baths, rent, utilities)
 
@@ -76,14 +76,14 @@ class RentalTwoStory(Rental):
         sqft = random.randint(2000, 3300)
         num_beds = random.randint(4, 6)
         num_baths = random.randint(3, 5)
-        rent = random.randint(4200, 5500)
+        rent = random.randint(4500, 6100)
         utilities = random.randint(350, 450)
         super().__init__(sqft, num_beds, num_baths, rent, utilities)
 
 
 class RentalMansion(Rental):
     def __init__(self):
-        sqft = random.randint(5000, 12000)
+        sqft = random.randint(8000, 12000)
         num_beds = random.randint(8, 10)
         num_baths = random.randint(7, 8)
         rent = random.randint(10000, 13000)
@@ -101,12 +101,18 @@ def gen_rental(n, prop_type):
 
 
 def rental_recommendation(ren_list, income, pref_beds):
-    rec_list = []
+    rec_rent_list = []
     for i in range(len(ren_list)):
         if income > ren_list[i].calc_total_rent() and pref_beds <= ren_list[i].num_beds:
-            rec_list.append(ren_list[i])
+            rec_rent_list.append(ren_list[i])
 
-    return rec_list
+    if rec_rent_list:
+        print(
+            f' **************\nCongratulations! You have {len(rec_rent_list)} recommendations!\n **************')
+
+    if not rec_rent_list:
+        print("You have no recommendations. Consider changing your preferences")
+    return rec_rent_list
 
 
 def view_rental_list(ren_list):
