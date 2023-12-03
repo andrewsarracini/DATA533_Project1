@@ -6,7 +6,7 @@ from userprofile import UserProfile, load_user_profiles, create_profile_from_inp
 from userlogin import view_profile, edit_profile, delete_profile
 
 # Load user profiles from CSV file using load_user_profiles from userprofile.py module
-file_path = r'C:\Users\cadla\OneDrive\Desktop\DATA533\Project\housemate\user\user_profiles.csv'
+file_path = r'C:\Users\\OneDrive\Desktop\DATA533\Project\housemate\user\user_profiles.csv'
 user_profiles = load_user_profiles(file_path)
 
 # -------------------------------------------------------------------------------------------------------------------------------------------- functions start here ------------------------------------------
@@ -104,6 +104,7 @@ while status == True:
                 else:
                     print("Maximum attempts reached. Exiting.")
                     break
+        break
 
     elif choice == '3':
         print("Exiting HouseMate. Have a great day!")
