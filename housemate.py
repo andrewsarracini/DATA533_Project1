@@ -43,28 +43,28 @@ user_profiles = load_user_profiles(file_path)
 
 # Function to display main menu options ------------------------------- changed from display_menu to main_menu
 def main_menu():
-    print("Welcome to HouseMate! Please choose an option:")
+    print("Welcome to HouseMate! Please choose an option: ")
     print("1. Create Profile")
     print("2. Login")
     print("3. Exit HouseMate")
 
-# Function to display login menu options
-def login_menu():
-    print("You are logged in. Please choose an option:")
+# Function to display profile menu options
+def profile_menu():
+    print("You are logged in. Please choose an option: ")
     print("1. View Profile Information")
     print("2. Edit Profile")
     print("3. Delete Profile")
     print("4. View available homes")
-    print("5. Go back to the main menu")
+    print("5. Logout and return to the main menu")
     
 # Function to display the housemate menu options --------------------- added ---------------
 def housemate_menu(): 
-    print("Find a home today! Please choose an option:")
+    print("Find a home today! Please choose an option: ")
     print("1. *Recommendation algorithm here*")
     print("2. View available rental properties")
     print("3. View available purchase properties")
-    print("4. Go back to the profile menu")
-    print("5. Logout")
+    print("4. Return to the profile menu")
+    print("5. Logout and return to the main menu")
     
 # Function to obtain the user input and assign to a variable for use in casting onto a class
 def rental_user_input():
@@ -150,10 +150,11 @@ def purchase_main():
 
 status = True # added to exit from HouseMate during while loops ------------------------------ CHANGED
 
-while True:
-    while status == True:
+while status == True:
+    main_menu_active = True # ------------------------------------------------------------------------------------------ ADDED 5:55am figured it out
+    while main_menu_active == True: # ------------------------------------------------------------------------------------------ ADDED 5:55am figured it out
         main_menu()
-        choice = input("Enter your choice (1-3) or 'q' to exit HouseMate: ")
+        choice = input("Enter your choice (1-3): ")
         
         # Load user profiles from CSV file using load_user_profiles from userprofile.py module
         file_path = r'C:\Users\cadla\OneDrive\Desktop\DATA533\Project\housemate\user\user_profiles.csv'
@@ -185,6 +186,7 @@ while True:
                 save_dataframe_to_csv(existing_df, file_path)
                 print("User Profile DataFrame:")
                 print(existing_df)
+            main_menu_active = False # ------------------------------------------------------------------------------------------ ADDED 5:55am figured it out
         elif choice == '2':
             # User login to get to the login menu
             # While loop to take in the username and password and match to credentials stored in CSV, if no match continues asking --------------------- might need to add an escape
@@ -215,43 +217,50 @@ while True:
                     else:
                         print("Maximum attempts reached. Exiting.")
                         break
-            break
+            main_menu_active = False # ------------------------------------------------------------------------------------------ ADDED 5:55am figured it out
 
         elif choice == '3':
             print("Exiting HouseMate. Have a great day!")
             status = False
-            break # Exit HouseMate because the user is at the main menu
-        elif choice.lower() == 'q':
-            print("Exiting HouseMate. Have a great day!")
-            status = False
-            break  # Exit HouseMate when 'q' is entered
+            # break # Exit HouseMate because the user is at the main menu # ------------------------------------------------------------------------- REMOVED 5:55am figured it out
+            main_menu_active = False # ------------------------------------------------------------------------------------------ ADDED 5:55am figured it out
+        # elif choice.lower() == 'q': # ------------------------------------------------------------------ REMOVED 5:55am not needed in main menu
+        #     print("Exiting HouseMate. Have a great day!")
+        #     status = False
+        #     break  # Exit HouseMate when 'q' is entered
         else:
             print("Invalid choice. Please enter a number between 1 and 3 or 'q' to exit HouseMate.")
 
-    # Display menu after successful login
-    while status == True:
-        login_menu()
+    if status == False: # ------------------------------------------------------------------------------------------ ADDED 5:55am figured it out
+        break
+    
+    profile_menu_active = True # ------------------------------------------------------------------------------------------ ADDED 5:55am figured it out
+    # Profile menu after successful login
+    while profile_menu_active == True:
+        profile_menu()
         choice = input("Enter your choice (1-5) or 'q' to exit HouseMate: ")
 
         if choice == '1':
             # View Profile Information
             view_profile(username, user_profiles)
+            break # ------------------------------------------------------------------------------------------ ADDED 5:55am figured it out
         elif choice == '2':
             # Edit Profile
             edit_result, new_value = edit_profile(username, user_profiles)
             if edit_result == "username_changed":
                 print("Username has been changed. Please login again.")
-                break
+                #break # ------------------------------------------------------------------------------------------ REMOVED 5:55am figured it out
             elif edit_result == "password_changed":
                 print("Password has been changed. Please login again.")
-                break
+            break # ------------------------------------------------------------------------------------------ MOVED IN 1 INDENT 5:55am figured it out
         elif choice == '3':
             deleted_user = delete_profile(username, user_profiles)  # Utilize the decorated function
             if stringHash(username) == deleted_user:
                 print("Profile has been deleted. Please log in again.")
-                break  # Exit the menu loop when the user's profile is deleted ------------------------------ added ------------
+            break  # Exit the menu loop when the user's profile is deleted # --------------------------------- MOVED IN 1 INDENT 5:55am figured it out
         elif choice == '4':
-            while True:
+            housemate_menu_active = True
+            while housemate_menu_active == True:
                 housemate_menu() # ----------------------------------------------------------- might need to build out here --------
                 choice = input("Enter your choice (1-5) or 'q' to exit HouseMate: ")
 
@@ -263,33 +272,39 @@ while True:
                     # downpay = input("Enter your approximate downpayment: ")
                     # pref_type = input("Enter the preferred type of property: ")
                     # pref_beds = input("Enter the preferred number of bedrooms: ")
+                    continue # ------------------------------------------------------------------------------------------ ADDED 5:55am figured it out
                 elif choice == '2':
                     # Find a home to rent
                     print("This is finding you a home to rent")
                     if __name__ == "__main__":
                         rental_main()
+                    continue # ------------------------------------------------------------------------------------------ ADDED 5:55am figured it out
                 elif choice == '3':
                     # Find a home to purchase
                     print("This is finding you a home to purchase")
                     if __name__ == "__main__":
                         purchase_main()
+                    continue # ------------------------------------------------------------------------------------------ ADDED 5:55am figured it out
                 elif choice == '4':
                     # Go back to main menu
-                    print("This is going back to the profile menu")
-                    break
+                    print("This is returning to the profile menu")
+                    housemate_menu_active = False # ------------------------------------------------------------------------------------------ ADDED 5:55am figured it out
                 elif choice == '5':
                     # Logout
-                    print("Logging out. Goodbye!") # -------------------------------------------------------------- how to get back to first menu? big while loop?
-                    break  # Exit the menu loop when logging out
+                    print("This is returning to the main menu.") # -------------------------------------------------------------- how to get back to first menu? big while loop?
+                    housemate_menu_active = False # ------------------------------------------------------------------------------------------ ADDED 5:55am figured it out
+                    profile_menu_active = False # ------------------------------------------------------------------------------------------ ADDED 5:55am figured it out
                 elif choice.lower() == 'q':
                     print("Exiting HouseMate. Have a great day!")
                     status = False
-                    break  # Exit HouseMate when 'q' is entered
+                    housemate_menu_active = False
+                    profile_menu_active = False
+                    main_menu_active = False
                 else:
                     print("Invalid choice. Please enter a number between 1 and 5 or 'q' to exit HouseMate.")
         elif choice == '5':
-            # Logout
-            print("Logging out. Goodbye!")
+            # Logout and return to the main menu
+            print("This is returning to the main menu.")
             break  # Exit the menu loop when logging out
         elif choice.lower() == 'q':
             print("Exiting HouseMate. Have a great day!")
@@ -297,7 +312,9 @@ while True:
             break  # Exit HouseMate when 'q' is entered
         else:
             print("Invalid choice. Please enter a number between 1 and 5 or 'q' to exit HouseMate.")
-    break
+    
+    if status == False:
+        break # Exit the outer while loop when the user chooses to exit HouseMate # ----------------------------------------------------------- ADDED 5:55am figured it out
 
 
 
