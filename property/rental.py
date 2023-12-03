@@ -91,14 +91,22 @@ class RentalMansion(Rental):
         super().__init__(sqft, num_beds, num_baths, rent, utilities)
 
 
-rental_list = []
-
-
 def gen_rental(n, prop_type):
+    rental_list = []
     for i in range(n):
         prop_instance = prop_type()
         rental_list.append(prop_instance)
-        print(f'{prop_type.__name__} {i} generated')
+        print(f'{prop_type.__name__} {i} generated \n')
+    return rental_list
+
+
+def rental_recommendation(ren_list, income, pref_beds):
+    rec_list = []
+    for i in range(len(ren_list)):
+        if income > ren_list[i].calc_total_rent() and pref_beds <= ren_list[i].num_beds:
+            rec_list.append(ren_list[i])
+
+    return rec_list
 
 
 def view_rental_list(ren_list):
@@ -112,15 +120,12 @@ def view_rental_list(ren_list):
 
         user_next = input(
             "Type 'next' to see the next rental option or 'stop' to exit: ")
-
         if user_next == 'next':
             # Iterate and flag set to True
             i += 1
             display_next = True
-
         elif user_next == 'stop':
             break
-
         else:
             # Don't iterate and flag set to False
             display_next = False
