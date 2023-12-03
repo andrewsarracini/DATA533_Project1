@@ -53,7 +53,7 @@ def reverseHash(hash_value, mapped_values):
 
     Examples
     --------
-    >>> mapped_strings = {}
+    >>> mapped_strings = {} ---------------------------------------------------------------------------remove
     >>> stringHash1 = "This is a test to see what happens"
     >>> stringHash2 = "SensitiveInformationIsHere"
     >>> stringHash3 = "What if there are numbers and symbols too?"

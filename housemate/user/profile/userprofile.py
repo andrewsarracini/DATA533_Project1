@@ -17,6 +17,12 @@ class UserProfile:
     def get_profile_info(self):
         return f"Name: {self.name}, Age: {self.age}, Email: {self.email}, Username: {self.username}"
 
+# Function to load the CSV file that holds the user profiles ------------------------------------------------------------------------ moved to top
+def load_user_profiles(file_path):
+    if os.path.exists(file_path):
+        return pd.read_csv(file_path)
+    return None
+
 # Function to create a new profile based on user input
 def create_profile_from_input():
     profile_data = {}
@@ -41,41 +47,8 @@ def append_to_dataframe(df, user_profile_data):
         df = pd.concat([df, new_df], ignore_index=True)
     return df
 
-# Function to load the CSV file that holds the user profiles
-def load_user_profiles(file_path):
-    if os.path.exists(file_path):
-        return pd.read_csv(file_path)
-    return None
-
 # Function to save the user profiles in the dataframe to a CSV file
 def save_dataframe_to_csv(df, file_path):
     df.to_csv(file_path, index=False)
-
-# Conditional if statement to ensure that the create profile function isn't implicitly called in userlogin.py module
-if __name__ == "__main__":
-    file_name = 'user_profiles.csv'
-    file_path = r'C:\Users\cadla\OneDrive\Desktop\DATA533\Project\housemate\user\user_profiles.csv'
-
-    existing_df = load_user_profiles(file_path)
-
-    # Conditional if statement that checks if there is an existing dataframe, if not create one
-    if existing_df is None:
-        existing_df = pd.DataFrame()
-
-    # While there is a dataframe, take in the user input and append to the existing dataframe
-    while True:
-        user_profile_data = create_profile_from_input()
-        existing_df = append_to_dataframe(existing_df, user_profile_data)
-
-        # Ask if the user wants to add another profile
-        choice = input("Do you want to add another profile? (yes/no): ").lower()
-        if choice != 'yes':
-            break
-
-    # Save DataFrame to CSV
-    # Use hashed_username and hashed_password in the CSV
-    save_dataframe_to_csv(existing_df, file_path)
-    print("User Profile DataFrame:")
-    print(existing_df)
 
 
