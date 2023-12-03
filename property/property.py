@@ -9,12 +9,6 @@ class Property(object):
         self.num_beds = num_beds
         self.num_baths = num_baths
 
-    # def __init__(self):
-    #     self.price = random.randint(249000, 2000000)
-    #     self.sqft = random.randint(449, 4999)
-    #     self.num_beds = random.randint(1, 10)
-    #     self.num_baths = random.randint(1, 10)
-
     def display_property(self):
         print(f'The price of this property is: ${self.price}.00')
         print(f'The square footage of this property is: {self.sqft} ft.')
@@ -22,7 +16,6 @@ class Property(object):
         print(f'This property has {self.num_baths} bathrooms')
 
 
-# This works as intended!
 prop_list = []
 
 
