@@ -9,7 +9,7 @@ class Purchase(Property):
         self.mortgage_term = mortgage_term
         self.interest = interest
 
-    def calculate_mortgage(self, downpay=0.10):
+    def calculate_mortgage(self, downpay=0.1):
         # 10% Downpayment is a PLACEHOLDER for the variable amount
         # Waiting for Profile.downpayment to input into this method
         down_payment = self.price * downpay
@@ -31,6 +31,7 @@ class Purchase(Property):
         print(f'Square footage: {self.sqft}sqft.')
         print(f'Number of bedrooms: {self.num_beds}')
         print(f'Number of bathrooms: {self.num_baths}')
+        print("")
 
 
 class Condo(Purchase):
@@ -87,11 +88,37 @@ class Mansion(Purchase):
         super().__init__(sqft, num_beds, num_baths, price)
 
 
-prop_list = []
+purchase_list = []
 
 
-def gen_props(n, prop_type):
+def gen_purchase(n, prop_type):
     for i in range(n):
         prop_instance = prop_type()
-        prop_list.append(prop_instance)
-        print(f'Property Type: {prop_type.__name__} {i} created')
+        purchase_list.append(prop_instance)
+        print(f'{prop_type.__name__} {i} generated')
+
+
+def view_purchase_list(pur_list):
+    i = 0
+    # Flag to controls when to iterate
+    display_next = True
+
+    while i < len(pur_list):
+        if display_next:
+            pur_list[i].display()
+
+        user_next = input(
+            "Type 'next' to see the next rental option or 'stop' to exit: ")
+
+        if user_next == 'next':
+            # Iterate and flag set to True
+            i += 1
+            display_next = True
+
+        elif user_next == 'stop':
+            break
+
+        else:
+            # Don't iterate and flag set to False
+            display_next = False
+            print("Invalid input. Please type 'next' to continue or 'stop' to exit. \n")

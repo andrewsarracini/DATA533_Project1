@@ -28,6 +28,7 @@ class Rental(Property):
         print(f'Square footage: {self.sqft}sqft.')
         print(f'Number of bedrooms: {self.num_beds}')
         print(f'Number of bathrooms: {self.num_baths}')
+        print("")
 
 
 class RentalCondo(Rental):
@@ -52,7 +53,7 @@ class RentalTownHome(Rental):
 
 class RentalDuplex(Rental):
     def __init__(self):
-        sqft = random.randint(1000, 2000)
+        sqft = random.randint(1400, 2000)
         num_beds = random.randint(2, 5)
         num_baths = random.randint(2, 4)
         rent = random.randint(2400, 3300)
@@ -97,4 +98,30 @@ def gen_rental(n, prop_type):
     for i in range(n):
         prop_instance = prop_type()
         rental_list.append(prop_instance)
-        print(f'Property Type: {prop_type.__name__} {i} created')
+        print(f'{prop_type.__name__} {i} generated')
+
+
+def view_rental_list(ren_list):
+    i = 0
+    # Flag to controls when to iterate
+    display_next = True
+
+    while i < len(ren_list):
+        if display_next:
+            ren_list[i].display_rental()
+
+        user_next = input(
+            "Type 'next' to see the next rental option or 'stop' to exit: ")
+
+        if user_next == 'next':
+            # Iterate and flag set to True
+            i += 1
+            display_next = True
+
+        elif user_next == 'stop':
+            break
+
+        else:
+            # Don't iterate and flag set to False
+            display_next = False
+            print("Invalid input. Please type 'next' to continue or 'stop' to exit. \n")
