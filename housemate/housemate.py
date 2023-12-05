@@ -2,18 +2,18 @@
 
 import os
 import pandas as pd
-from security import stringHash, reverseHash, check_credentials
-from userprofile import (
+from user.security import stringHash, reverseHash, check_credentials
+from user.userprofile import (
     UserProfile,
     load_user_profiles,
     create_profile_from_input,
     append_to_dataframe,
     save_dataframe_to_csv
 )
-from userlogin import view_profile, edit_profile, delete_profile
+from user.userlogin import view_profile, edit_profile, delete_profile
 
-from property import Property
-from purchase import (
+from property.property import Property
+from property.purchase import (
     Purchase, 
     Condo,
     TownHome,
@@ -25,7 +25,7 @@ from purchase import (
     view_purchase_list,
     purchase_recommendation
 )
-from rental import (
+from property.rental import (
     Rental,
     RentalCondo,
     RentalTownHome,
@@ -38,10 +38,11 @@ from rental import (
     rental_recommendation
 )
 
-# Load user profiles from CSV file using load_user_profiles from userprofile.py module
-#file_path = r'C:\Users\\OneDrive\Desktop\DATA533\Project\housemate\user\user_profiles.csv'
+# --------------------------------- functions start here --------------------------------- #
+
+# Function to establish file_path and load user profiles from CSV file using load_user_profiles from userprofile.py module
 def get_file_path():
-    # Using a relative path (assuming the script is always run from the same directory)
+    # Using a relative path (will stored in the user's home directory)
     relative_path = 'user/user_profiles.csv'
     if os.path.exists(relative_path):
         return relative_path
@@ -53,8 +54,6 @@ def get_file_path():
 
 file_path = get_file_path()
 user_profiles = load_user_profiles(file_path)
-
-# ------------------------------------------------------ functions end here ------------------------------------------------------ #
 
 # Function to display main menu options
 def main_menu():
@@ -88,7 +87,7 @@ def rental_user_input():
     user_input = input().lower()
     return user_input
 
-# Function to map user input to an object to be called into a function from rental.py
+# Function to obtain the mapped user input using rental_user_input() above, to a variable to be called into a function from rental.py
 def rental_main():
     while True:
         try:
@@ -122,13 +121,13 @@ def rental_main():
         except ValueError:
             print("Please enter only whole numbers.")
 
-# Function to obtain the user input and assign to a variable for use in casting onto a class   
+# Function to obtain the user input and assign to a variable for use in casting onto a class 
 def purchase_user_input():
     print("Enter the preferred type of property (Condo/TownHome/Duplex/Bungalow/TwoStory/Mansion): ")
     user_input = input().lower()
     return user_input
 
-# Function to map user input to an object to be called into a function from purchase.py
+# Function to obtain the mapped user input using purchase_user_input() above, to a variable to be called into a function from purchase.py
 def purchase_main():
     while True:
         try: 
@@ -162,7 +161,7 @@ def purchase_main():
         except ValueError:
             print("Please enter only whole numbers.")
             
-# Function use the map user input using rental_user_input() above, to an object to be called into a function from rental.py 
+# Function to obtain the mapped user input using rental_user_input() above, to a variable to be called into a function from rental.py
 def rental_recommendation_main():
     while True:
         try: 
@@ -178,7 +177,7 @@ def rental_recommendation_main():
 
             prop_type = rental_user_input()
             prop_type_mapping = {
-                'condo': RentalCondo,  # Ensure RentalCondo, RentalTownHome, etc., are the class names, not instances
+                'condo': RentalCondo, # Ensure RentalCondo, RentalTownHome, etc., are the class names, not instances
                 'townhome': RentalTownHome,
                 'duplex': RentalDuplex,
                 'bungalow': RentalDuplex,
@@ -200,7 +199,7 @@ def rental_recommendation_main():
         except ValueError:
             print("Please enter only whole numbers.")
 
-# Function use the map user input using purchase_user_input() above, to an object to be called into a function from purchase.py         
+# Function use the map user input using purchase_user_input() above, to an variable to be called into a function from purchase.py         
 def purchase_recommendation_main():
     while True:
         try: 
@@ -221,7 +220,7 @@ def purchase_recommendation_main():
 
             prop_type = purchase_user_input()
             prop_type_mapping = {
-                'condo': Condo,  # Ensure Condo, TownHome, etc., are the class names, not instances
+                'condo': Condo, # Ensure Condo, TownHome, etc., are the class names, not instances
                 'townhome': TownHome,
                 'duplex': Duplex,
                 'bungalow': Bungalow,
@@ -244,7 +243,7 @@ def purchase_recommendation_main():
         except ValueError:
             print("Please enter only whole numbers.")
 
-# ------------------------------------------------------ functions end here ------------------------------------------------------ #
+# --------------------------------- functions end here --------------------------------- #
 
 status = True
 
@@ -255,14 +254,12 @@ while status == True:
         choice = input("Enter your choice (1-3): ")
         
         # Load user profiles from CSV file using load_user_profiles from userprofile.py module
-        #file_path = r'C:\Users\cadla\OneDrive\Desktop\DATA533\Project\housemate\user\user_profiles.csv'
         user_profiles = load_user_profiles(file_path)
 
         if choice == '1':
             # Conditional if statement to ensure that the create profile function isn't implicitly called in userlogin.py module
             if __name__ == "__main__":
                 file_name = 'user_profiles.csv'
-                #file_path = r'C:\Users\cadla\OneDrive\Desktop\DATA533\Project\housemate\user\user_profiles.csv'
 
                 existing_df = load_user_profiles(file_path)
 
@@ -270,7 +267,7 @@ while status == True:
                 if existing_df is None:
                     existing_df = pd.DataFrame()
 
-                # While there is a dataframe, take in the user input and append to the existing dataframe
+                # While there is a dataframe, take in the user input and concatenate to the existing dataframe
                 while True:
                     user_profile_data = create_profile_from_input()
                     existing_df = append_to_dataframe(existing_df, user_profile_data)
@@ -279,14 +276,8 @@ while status == True:
                     choice = input("Do you want to add another profile? (yes/no): ").lower()
                     if choice != 'yes':
                         break
-
-                # Save DataFrame to CSV
-                # Use hashed_username and hashed_password in the CSV
-                save_dataframe_to_csv(existing_df, file_path)
-                print("User Profile DataFrame:")
-                print(existing_df)
                 
-            main_menu_active = True # Setting main menu flag to false for flow control
+            main_menu_active = True # Setting main menu flag to false for flow control (sent back to main menu to login)
         elif choice == '2':
             # User login to get to the profile menu
             # While loop to take in the username and password and match to credentials stored in CSV, if no match continues asking
@@ -314,12 +305,11 @@ while status == True:
                     else:
                         print("Maximum attempts reached. Exiting.")
                         break
-            main_menu_active = False # Setting main menu flag to false for flow control
-
+            main_menu_active = False # Setting main menu flag to false for flow control (sent to the next menu)
         elif choice == '3':
             print("Exiting HouseMate. Have a great day!")
             status = False
-            main_menu_active = False # Setting main menu flag to false for flow control
+            main_menu_active = False # Setting main menu flag to false for flow control (exits from application)
         else:
             print("Invalid choice. Please enter a number between 1 and 3 or 'q' to exit HouseMate.")
 
@@ -340,17 +330,17 @@ while status == True:
             edit_result, new_value = edit_profile(username, user_profiles)
             if edit_result == "username_changed":
                 print("Username has been changed. Please login again.")
-                break # Exit the profile menu loop when the username or password is edited
+                break # Exit the profile menu loop when the username or password is edited (to re login)
             elif edit_result == "password_changed":
                 print("Password has been changed. Please login again.")
-                break # Exit the profile menu loop when the username or password is edited
+                break # Exit the profile menu loop when the username or password is edited (to re login)
         elif choice == '3':
             deleted_user = delete_profile(username, user_profiles) # Utilize the decorated function
             if stringHash(username) == deleted_user:
                 print("Profile has been deleted. Please log in again.")
-            break  # Exit the profile menu loop when the user's profile is deleted
+            break  # Exit the profile menu loop when the user's profile is deleted (sent to the main menu)
         elif choice == '4':
-            housemate_menu_active = True # Setting housemate menu flag to false for flow control
+            housemate_menu_active = True # Setting housemate menu flag to true for flow control
             while housemate_menu_active == True:
                 # Housemate menu for selecting recommendations or viewing all
                 housemate_menu()
@@ -379,14 +369,14 @@ while status == True:
                 elif choice == '5':
                     # Return to the main menu
                     print("This is returning to the profile menu")
-                    housemate_menu_active = False # Setting housemate menu flag to false for flow control
+                    housemate_menu_active = False # Setting housemate menu flag to false for flow control (sent to profile menu)
                 elif choice == '6':
                     # Logout and return to the main menu
                     print("This is returning to the main menu.")
-                    housemate_menu_active = False # Setting housemate menu flag to false for flow control
-                    profile_menu_active = False # Setting profile menu flag to false for flow control
+                    housemate_menu_active = False # Setting housemate menu flag to false for flow control (sent to profile menu)
+                    profile_menu_active = False # Setting profile menu flag to false for flow control (sent to the main menu)
                 elif choice.lower() == 'q':
-                    # Exit HouseMate when 'q' is entered
+                    # Exit HouseMate when 'q' is entered (exits application)
                     print("Exiting HouseMate. Have a great day!")
                     status = False
                     housemate_menu_active = False # Setting housemate menu flag to false for flow control
@@ -401,7 +391,7 @@ while status == True:
         elif choice.lower() == 'q':
             print("Exiting HouseMate. Have a great day!")
             status = False
-            break  # Exit HouseMate when 'q' is entered
+            break  # Exit HouseMate when 'q' is entered (exits application)
         else:
             print("Invalid choice. Please enter a number between 1 and 5 or 'q' to exit HouseMate.")
     
