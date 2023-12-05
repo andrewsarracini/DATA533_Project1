@@ -97,11 +97,12 @@ def gen_purchase(n, prop_type):
     return purchase_list
 
 
-def purchase_recommendation(pur_list, downpay, income, pref_beds):
+def purchase_recommendation(prop_type, downpay, income, pref_beds):
     rec_pur_list = []
-    for i in range(len(pur_list)):
-        if downpay > (pur_list[i].price * 0.1) and (income/12) > pur_list[i].calculate_mortgage() and pref_beds <= pur_list[i].num_beds:
-            rec_pur_list.append(pur_list[i])
+    generated_pur_list = gen_purchase(25, prop_type)
+    for i in range(len(generated_pur_list)):
+        if downpay > (generated_pur_list[i].price * 0.1) and (income/12) > generated_pur_list[i].calculate_mortgage() and pref_beds <= generated_pur_list[i].num_beds:
+            rec_pur_list.append(generated_pur_list[i])
 
     if rec_pur_list:
         print(

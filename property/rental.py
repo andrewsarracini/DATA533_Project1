@@ -36,7 +36,7 @@ class RentalCondo(Rental):
         sqft = random.randint(350, 850)
         num_beds = random.randint(1, 2)
         num_baths = 1
-        rent = random.randint(1200, 1800)
+        rent = random.randint(1400, 1900)
         utilities = random.randint(100, 150)
         super().__init__(sqft, num_beds, num_baths, rent, utilities)
 
@@ -46,7 +46,7 @@ class RentalTownHome(Rental):
         sqft = random.randint(800, 1800)
         num_beds = random.randint(2, 4)
         num_baths = random.randint(1, 3)
-        rent = random.randint(2000, 3200)
+        rent = random.randint(2200, 3200)
         utilities = random.randint(200, 250)
         super().__init__(sqft, num_beds, num_baths, rent, utilities)
 
@@ -56,7 +56,7 @@ class RentalDuplex(Rental):
         sqft = random.randint(1400, 2000)
         num_beds = random.randint(2, 5)
         num_baths = random.randint(2, 4)
-        rent = random.randint(28000, 3900)
+        rent = random.randint(2800, 4000)
         utilities = random.randint(250, 300)
         super().__init__(sqft, num_beds, num_baths, rent, utilities)
 
@@ -100,11 +100,12 @@ def gen_rental(n, prop_type):
     return rental_list
 
 
-def rental_recommendation(ren_list, income, pref_beds):
+def rental_recommendation(prop_type, income, pref_beds):
     rec_rent_list = []
-    for i in range(len(ren_list)):
-        if income > ren_list[i].calc_total_rent() and pref_beds <= ren_list[i].num_beds:
-            rec_rent_list.append(ren_list[i])
+    generated_rent_list = gen_rental(25, prop_type)
+    for i in range(len(generated_rent_list)):
+        if (income * 0.6) > generated_rent_list[i].calc_total_rent() and pref_beds <= generated_rent_list[i].num_beds:
+            rec_rent_list.append(generated_rent_list[i])
 
     if rec_rent_list:
         print(
