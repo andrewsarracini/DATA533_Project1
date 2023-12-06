@@ -2,7 +2,7 @@
 
 import os
 import pandas as pd
-from .security import stringHash, reverseHash, check_credentials
+from .security import string_hash, reverseHash, check_credentials
 from .userprofile import load_user_profiles, save_dataframe_to_csv
 
 # Function to establish file_path and load user profiles from CSV file using load_user_profiles from userprofile.py module
@@ -17,8 +17,8 @@ user_profiles = load_user_profiles(file_path)
 
 # Function to view profile information
 def view_profile(username, df):
-    # Hash the username input
-    hashed_username = stringHash(username)
+    # Hash the username input, then convert into string format for comparison
+    hashed_username = str(string_hash(username))  # Convert the hashed values to strings
     user_profile = df[df['username'] == hashed_username]
     if not user_profile.empty:
         print("Profile Information:")
@@ -30,8 +30,8 @@ def view_profile(username, df):
 def edit_profile(username, df):
     new_value = None # Placeholder for new_value within the function scope
     
-    # Hash the username input
-    hashed_username = stringHash(username)
+    # Hash the username input, then convert into string format for comparison
+    hashed_username = str(string_hash(username))  # Convert the hashed values to strings
     user_profile_index = df.index[df['username'] == hashed_username].tolist()
     
     if len(user_profile_index) > 0:
@@ -42,11 +42,11 @@ def edit_profile(username, df):
 
             # Conditional if/elif/else statement to exit the while loop menu when the username or password is changed (to re login)
             if field_to_edit == 'username':
-                df.loc[user_profile_index[0], 'username'] = stringHash(new_value)
+                df.loc[user_profile_index[0], 'username'] = string_hash(new_value)
                 save_dataframe_to_csv(df, file_path) # Save to the specified location
                 return "username_changed", new_value
             elif field_to_edit == 'password':
-                df.loc[user_profile_index[0], 'password'] = stringHash(new_value)
+                df.loc[user_profile_index[0], 'password'] = string_hash(new_value)
                 save_dataframe_to_csv(df, file_path) # Save to the specified location
                 return "password_changed", new_value
             else:
@@ -63,7 +63,8 @@ def edit_profile(username, df):
 # Function decorator for delete profile
 def deleter(func):
     def wrapper(username, df):
-        hashed_username = stringHash(username)
+        # Hash the username input, then convert into string format for comparison
+        hashed_username = str(string_hash(username))  # Convert the hashed values to strings
         user_profile_index = df.index[df['username'] == hashed_username].tolist()
         
         if len(user_profile_index) > 0:
@@ -82,7 +83,8 @@ def deleter(func):
 # Function to delete profile information (decorated with deleter)
 @deleter
 def delete_profile(username, df):
-    hashed_username = stringHash(username)
+    # Hash the username input, then convert into string format for comparison
+    hashed_username = str(string_hash(username))  # Convert the hashed values to strings
     user_profile_index = df.index[df['username'] == hashed_username].tolist()
     
     if len(user_profile_index) > 0:

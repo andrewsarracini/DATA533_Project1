@@ -2,7 +2,7 @@
 
 import os
 import pandas as pd
-from user.security import stringHash, reverseHash, check_credentials
+from user.security import string_hash, reverseHash, check_credentials
 from user.userprofile import (
     UserProfile,
     load_user_profiles,
@@ -70,7 +70,7 @@ def profile_menu():
 def housemate_menu(): 
     print("Find a home today! Please choose an option: ")
     print("1. View ONLY recommendated properties to rent")
-    print("2. View ONLY recommendated properties to purchase*")
+    print("2. View ONLY recommendated properties to purchase")
     print("3. View available rental properties")
     print("4. View available purchase properties")
     print("5. Return to the profile menu")
@@ -108,7 +108,7 @@ def rental_main():
                         continue
 
                     rental_list = gen_rental(rent_n, pref_type)
-                    view_rental_list(rental_list)
+                    view_rental_list(rental_list) # Display 'n' available rental properties
                     break
                 break
             else:
@@ -148,7 +148,7 @@ def purchase_main():
                         continue
 
                     purchase_list = gen_purchase(purchase_n, pref_type)
-                    view_purchase_list(purchase_list)
+                    view_purchase_list(purchase_list) # Display 'n' available purchase properties
                     break
                 break 
             else:
@@ -331,7 +331,7 @@ while status == True:
                 break # Exit the profile menu loop when the username or password is edited (to re login)
         elif choice == '3':
             deleted_user = delete_profile(username, user_profiles) # Utilize the decorated function
-            if stringHash(username) == deleted_user:
+            if string_hash(username) == deleted_user:
                 print("Profile has been deleted. Please log in again.")
             break  # Exit the profile menu loop when the user's profile is deleted (sent to the main menu)
         elif choice == '4':
@@ -343,10 +343,12 @@ while status == True:
 
                 if choice == '1':
                     # Rental recommendation list based on user input
+                    print("This is showing you the recommended properties to rent")
                     rental_recommendation_main()
                     continue                
                 if choice == '2':
                     # Purchase recommendation list based on user input
+                    print("This is showing you the recommended properties to purchase")
                     purchase_recommendation_main()
                     continue        
                 elif choice == '3':
@@ -367,7 +369,7 @@ while status == True:
                     housemate_menu_active = False # Setting housemate menu flag to false for flow control (sent to profile menu)
                 elif choice == '6':
                     # Logout and return to the main menu
-                    print("This is returning to the main menu.")
+                    print("This is returning to the main menu")
                     housemate_menu_active = False # Setting housemate menu flag to false for flow control (sent to profile menu)
                     profile_menu_active = False # Setting profile menu flag to false for flow control (sent to the main menu)
                 elif choice.lower() == 'q':
