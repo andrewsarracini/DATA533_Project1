@@ -3,7 +3,7 @@
 import os
 import re
 import pandas as pd
-from .security import stringHash
+from .security import string_hash
 
 # UserProfile class
 class UserProfile:
@@ -23,24 +23,6 @@ def load_user_profiles(file_path):
     if os.path.exists(file_path):
         return pd.read_csv(file_path)
     return None
-
-# Function to create a new profile based on user input with validation for age, email, username, and password
-# def create_profile_from_input():
-
-#     # Hash the username and password before storing
-#     profile_data['username'] = stringHash(profile_data['username'])
-#     profile_data['password'] = stringHash(profile_data['password'])
-
-#     # Add the created profile to the user profiles dataframe and save to CSV in the current working directory
-#     current_directory = os.getcwd()
-#     file_path = os.path.join(current_directory, 'user_profiles.csv')
-#     user_profiles = load_user_profiles(file_path)
-
-#     existing_df = pd.DataFrame() if user_profiles is None else user_profiles
-#     existing_df = append_to_dataframe(existing_df, profile_data)
-#     save_dataframe_to_csv(existing_df, file_path)
-
-#     return profile_data
 
 # Function to create a new profile based on user input with validation for age, email, username, and password
 def create_profile_from_input():
@@ -97,8 +79,8 @@ def create_profile_from_input():
                     print("Password should be between 8 and 133 characters.")
 
         # Hash the username and password before storing
-        profile_data['username'] = stringHash(profile_data['username'])
-        profile_data['password'] = stringHash(profile_data['password'])
+        profile_data['username'] = int(string_hash(profile_data['username']))
+        profile_data['password'] = int(string_hash(profile_data['password']))
 
         # Add the created profile to the user profiles dataframe and save to CSV in the current working directory
         current_directory = os.getcwd()
