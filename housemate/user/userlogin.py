@@ -7,15 +7,10 @@ from .userprofile import load_user_profiles, save_dataframe_to_csv
 
 # Function to establish file_path and load user profiles from CSV file using load_user_profiles from userprofile.py module
 def login_get_file_path():
-    # Using a relative path (will stored in the user's home directory)
-    relative_path = 'user/user_profiles.csv'
-    if os.path.exists(relative_path):
-        return relative_path
-
-    # If the file is not found, return a default path in the user's home directory
-    home_dir = os.path.expanduser('~')
-    default_path = os.path.join(home_dir, 'user_profiles.csv')
-    return default_path
+    # Get the current working directory and set the file path
+    current_directory = os.getcwd()
+    file_path = os.path.join(current_directory, 'user_profiles.csv')
+    return file_path
 
 file_path = login_get_file_path()
 user_profiles = load_user_profiles(file_path)

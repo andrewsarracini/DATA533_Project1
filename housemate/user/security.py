@@ -89,7 +89,8 @@ def reverseHash(hash_value, mapped_values):
 
 # Function to check credentials when logging in by matching the hashed values of 
 # the user input to the hashed values that are stored in the CSV
-def check_credentials(username, password, hashed_credentials):
+# Function to check credentials when logging in
+def check_credentials(username, password, df):
     """
     Verifies the input username and password by reversing and hashing the provided 
     credentials and matching them with the hashed values stored in a CSV file.
@@ -128,10 +129,161 @@ def check_credentials(username, password, hashed_credentials):
     """
     # Implement the logic to check the credentials against the hashed values
     # Retrieve the hashed values of the provided username and password
-    hashed_username = stringHash(username)
-    hashed_password = stringHash(password)
 
-    # Check if the hashed values match the stored credentials
-    return hashed_credentials.get(hashed_username) == hashed_password
+# Function to check credentials when logging in
+def check_credentials(username, password, df):
+    if df is not None:
+        # Hash the provided username and password
+        hashed_username = stringHash(username)
+        hashed_password = stringHash(password)
+
+        # Find matching profile using hashed username and password columns in DataFrame df
+        matching_profile = df[(df['username'] == hashed_username) & (df['password'] == hashed_password)]
+        print(hashed_password)
+        print(df['password'])
+        print(hashed_username)
+        print(df['username'])
+        return not matching_profile.empty
+    print("False here")
+    return False
+
+# Function to check credentials when logging in
+# def check_credentials(username, password, df):
+#     if df is not None:
+#         # Hash the provided username and password
+#         hashed_username = stringHash(username)
+#         hashed_password = stringHash(password)
+
+#         # Convert hashed values to the same data type as stored in DataFrame (e.g., strings)
+#         hashed_username = str(hashed_username)
+#         hashed_password = str(hashed_password)
+
+#         # Strip any leading or trailing whitespace
+#         hashed_username = hashed_username.strip()
+#         hashed_password = hashed_password.strip()
+
+#         # Find matching profile using hashed username and password columns in DataFrame df
+#         matching_profile = df[(df['username'].str.strip() == hashed_username) & (df['password'].str.strip() == hashed_password)]
+#         return not matching_profile.empty
+
+#     return False
 
 
+# ------------------------ for debugging ------------------ they match
+# Function to check credentials when logging in
+# def check_credentials(username, password, df):
+#     if df is not None:
+#         # Hash the provided username and password
+#         hashed_username = stringHash(username)
+#         hashed_password = stringHash(password)
+
+#         # Find matching profile using hashed username and password columns in DataFrame df
+#         matching_profile = df[(df['username'] == hashed_username) & (df['password'] == hashed_password)]
+
+#         print("Hashed Username (Input):", hashed_username)
+#         print("Hashed Password (Input):", hashed_password)
+#         print("DataFrame Username:", df['username'])
+#         print("DataFrame Password:", df['password'])
+#         print("Matching Profile:", matching_profile)
+
+#         return not matching_profile.empty
+
+#     return False
+
+# ------------------------ for debugging ------------------ they match not sure why it won't work
+# Hashed Username (Input): 6023
+# Hashed Password (Input): 6023
+# DataFrame Username: 0              3914
+# 1              3914
+# 2              3846
+# 3              4484
+# 4              4376
+# 5              5395
+# 6     usernamedebug
+# 7     usernamedebug
+# 8     usernamedebug
+# 9     usernamedebug
+# 10        debugging
+# 11             5509
+# 12             3919
+# 13             3871
+# 14             4241
+# 15             4304
+# 16             4895
+# 17             4975
+# 18             5475
+# 19             4992
+# 20             5798
+# 21             4347
+# 22             7214
+# 23             4782
+# 24             7135
+# 25             8715
+# 26             9365
+# 27             6899
+# 28             6131
+# 29            15123
+# 30             7206
+# 31             3936
+# 32             3504
+# 33             4548
+# 34             7540
+# 35             5799
+# 36             4246
+# 37             4264
+# 38             4827
+# 39             4273
+# 40             3491
+# 41             9783
+# 42             4832
+# 43             6023
+# Name: username, dtype: object
+# DataFrame Password: 0              4056
+# 1              4056
+# 2              3988
+# 3              4626
+# 4              4518
+# 5              5537
+# 6     passworddebug
+# 7     passworddebug
+# 8     passworddebug
+# 9     passworddebug
+# 10        debugging
+# 11             5509
+# 12             3919
+# 13             3871
+# 14             4383
+# 15             4304
+# 16             4895
+# 17             4975
+# 18             5475
+# 19             4992
+# 20             5798
+# 21             4489
+# 22             7214
+# 23             4782
+# 24             7135
+# 25             8715
+# 26             9365
+# 27             7278
+# 28             6131
+# 29            15123
+# 30             7206
+# 31             3936
+# 32             3504
+# 33             4548
+# 34             7540
+# 35             5799
+# 36             4246
+# 37             4264
+# 38             4827
+# 39             4273
+# 40             3491
+# 41            10039
+# 42             4832
+# 43             6023
+# Name: password, dtype: object
+# Matching Profile: Empty DataFrame
+# Columns: [name, age, email, username, password]
+# Index: []
+# Invalid credentials. 2 attempts remaining.
