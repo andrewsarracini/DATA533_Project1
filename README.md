@@ -119,8 +119,4 @@ There are many functions within housemate.py that allow for flow including:
 - Mapping functions: allow for user-friendly input 
    - `purchase_main`, `rental_main`, `purchase_recommendation_main`, `renatl_recommendation_main`
  
-- Also note, housemate.py protects against all user input from invalid characters and character lengths. In the case of email, only a certain pattern will be accepted ("example@email.com") 
-
-**Final notes:**
-Known bug: currently we have an issue where the login system is not accepting new users due to the .csv file not being properly created in the file_path. This will prevent any user from entering into HouseMate the intended way, but by "failing" to log in 3 times, the next set of menus is accessible. This is not an intended part of the HouseMate and we are working on a fix. 
-
+- Also note, housemate.py protects against all user input from invalid characters and character lengths. In the case of email, only a certain pattern will be accepted ("example@email.com")
