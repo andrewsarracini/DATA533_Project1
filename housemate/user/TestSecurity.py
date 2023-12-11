@@ -106,6 +106,7 @@ class TestCheckCredentials(unittest.TestCase):
 #     # Run the tests
 #     test_runner.run(test_suite)
 
-unittest.main(argv=[''], verbosity=2, exit=False)
+if __name__ == '__main__':
+    unittest.main(argv=[''], verbosity=2, exit=False))
 
 

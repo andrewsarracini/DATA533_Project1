@@ -157,13 +157,13 @@ class TestDeleteProfile(unittest.TestCase):
 # if __name__ == '__main__':
 #     # Create a test suite
 #     test_suite = unittest.TestLoader().loadTestsFromTestCase(TestUserProfileLoading)
-
 #     # Create a test runner
 #     test_runner = unittest.TextTestRunner()
 
 #     # Run the tests
 #     test_runner.run(test_suite)
 
-unittest.main(argv=[''], verbosity=2, exit=False)
+if __name__ == '__main__':
+    unittest.main(argv=[''], verbosity=2, exit=False)
 
 
