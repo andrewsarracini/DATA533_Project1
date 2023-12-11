@@ -149,6 +149,7 @@ class TestSaveDataFrameToCSV(unittest.TestCase):
 # if __name__ == '__main__':
 #     # Create a test suite
 #     test_suite = unittest.TestSuite()
+#     result = unittest.TestResult()
 #     test_suite.addTest(unittest.makeSuite(TestUserProfile))
 #     test_suite.addTest(unittest.makeSuite(TestAppendToDataFrame))
 #     test_suite.addTest(unittest.makeSuite(TestSaveDataFrameToCSV))
@@ -156,8 +157,10 @@ class TestSaveDataFrameToCSV(unittest.TestCase):
 #     # Create a test runner
 #     test_runner = unittest.TextTestRunner()
 
-#     # Run the tests
-#     test_runner.run(test_suite)
+#     # Run the tests WRAPPED PRINT
+#     print(test_runner.run(test_suite))
+    
+# my_suite()
 
 unittest.main(argv=[''], verbosity=2, exit=False)
 

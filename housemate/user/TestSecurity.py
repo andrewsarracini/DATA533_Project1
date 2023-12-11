@@ -68,30 +68,85 @@ class TestReverseHash(unittest.TestCase):
 
         self.assertEqual(result_3, string_hash3)
 
+# class TestCheckCredentials(unittest.TestCase):
+#     def setUp(self):
+#         self.df = pd.DataFrame({
+#             'username': [str(string_hash('username1'))],
+#             'password': [str(string_hash('password1'))]
+#         })
+
+#     def tearDown(self):
+#         self.df = None
+
+#     def test_check_credentials_match(self):
+#         # Test for matching credentials in DataFrame
+#         result = check_credentials('username1', 'password1', self.df)
+#         self.assertTrue(result)
+
+#     def test_check_credentials_no_match(self):
+#         # Test for no matching credentials in DataFrame
+#         result = check_credentials('Unknown', 'Password', self.df)
+#         self.assertFalse(result)
+
+#     def test_check_credentials_none_df(self):
+#         # Test when df is None
+#         result = check_credentials('username', 'password', None)
+#         self.assertFalse(result)
+        
 class TestCheckCredentials(unittest.TestCase):
     def setUp(self):
         self.df = pd.DataFrame({
             'username': [str(string_hash('username1'))],
             'password': [str(string_hash('password1'))]
         })
+        self.df2 = pd.DataFrame({
+            'username': [str(string_hash('222222222'))],
+            'password': [str(string_hash('222222222'))]
+        })
+        self.df3 = pd.DataFrame({
+            'username': [str(string_hash('username3!'))],
+            'password': [str(string_hash('password3!'))]
+        })
+        self.df4 = pd.DataFrame({
+            'username': [str(string_hash('USERNAME4'))],
+            'password': [str(string_hash('PASSWORD4'))]
+        })
+        self.result_true1 = check_credentials('username1', 'password1', self.df)
+        self.result_true2 = check_credentials('222222222', '222222222', self.df2)
+        self.result_true3 = check_credentials('username3!', 'password3!', self.df3)
+        self.result_true4 = check_credentials('USERNAME4', 'PASSWORD4', self.df4)
+        self.result_false1 = check_credentials('Unknown1', 'Password1', self.df)
+        self.result_false2 = check_credentials('333333333', '333333333', self.df2)
+        self.result_false3 = check_credentials('Unknown3!', 'Password3!', self.df3)
+        self.result_false4 = check_credentials('UNKNOWN', 'UNKNOWN', self.df4)
+        self.result_none1 = check_credentials('username1', 'password1', None)
+        self.result_none2 = check_credentials('222222222', '222222222', None)
+        self.result_none3 = check_credentials('username3!', 'password3!', None)
+        self.result_none4 = check_credentials('USERNAME4', 'PASSWORD4', None)
 
     def tearDown(self):
         self.df = None
 
     def test_check_credentials_match(self):
         # Test for matching credentials in DataFrame
-        result = check_credentials('username1', 'password1', self.df)
-        self.assertTrue(result)
+        self.assertTrue(self.result_true1)
+        self.assertTrue(self.result_true2)
+        self.assertTrue(self.result_true3)
+        self.assertTrue(self.result_true4)
 
     def test_check_credentials_no_match(self):
         # Test for no matching credentials in DataFrame
-        result = check_credentials('Unknown', 'Password', self.df)
-        self.assertFalse(result)
+        self.assertFalse(self.result_false1)
+        self.assertFalse(self.result_false2)
+        self.assertFalse(self.result_false3)
+        self.assertFalse(self.result_false4)
 
     def test_check_credentials_none_df(self):
         # Test when df is None
-        result = check_credentials('username', 'password', None)
-        self.assertFalse(result)
+        self.assertFalse(self.result_none1)
+        self.assertFalse(self.result_none2)
+        self.assertFalse(self.result_none3)
+        self.assertFalse(self.result_none4)
 
 # if __name__ == '__main__':
 #     # Create a test suite
