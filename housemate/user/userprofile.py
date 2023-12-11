@@ -3,7 +3,7 @@
 import os
 import re
 import pandas as pd
-from .security import string_hash
+from security import string_hash
 
 # UserProfile class
 class UserProfile:
@@ -26,8 +26,13 @@ def load_user_profiles(file_path):
 
 # Function to create a new profile based on user input with validation for age, email, username, and password
 def create_profile_from_input():
-    profile_data = {}
-    profile_data['name'] = input("Enter your name: ")
+    profile_data = {
+        'name': input("Enter your name: "),
+        'age': None,
+        'email': None,
+        'username': None,
+        'password': None
+    }
 
     while True:
         age_input = input("Enter your age: ")
