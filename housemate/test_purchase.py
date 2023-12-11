@@ -26,39 +26,42 @@ class TestPurchase(unittest.TestCase):
 
     def setUp(self):
         random.seed(533)
-        self.condo_inst = Condo()
-        self.townhome_inst = TownHome()
-        self.duplex_inst = Duplex()
-        self.bungalow_inst = Bungalow()
+        self.condo = Condo()
+        self.townhome = TownHome()
+        self.duplex = Duplex()
+        self.bungalow = Bungalow()
         self.twostory = TwoStory()
         self.mansion = Mansion()
         self.purchase_known = Purchase(1500, 6, 3, 700000)
         self.purchase2_known = Purchase(25000, 7, 5, 1500000)
         self.purchase3_known = Purchase(1500, 4, 3, 700000)
+        self.purchase_gen_result = gen_purchase(3, Mansion)
+        self.purchase_rec_result = purchase_recommendation(
+            TownHome, 150000, 100000, 3)
 
     def test_condo(self):
-        self.assertTrue(350 <= self.condo_inst.sqft <= 800)
-        self.assertTrue(1 <= self.condo_inst.num_beds <= 2)
-        self.assertTrue(1 == self.condo_inst.num_baths)
-        self.assertTrue(300000 <= self.condo_inst.price <= 500000)
+        self.assertTrue(350 <= self.condo.sqft <= 800)
+        self.assertTrue(1 <= self.condo.num_beds <= 2)
+        self.assertTrue(1 == self.condo.num_baths)
+        self.assertTrue(300000 <= self.condo.price <= 500000)
 
     def test_townhome(self):
-        self.assertTrue(800 <= self.townhome_inst.sqft <= 1800)
-        self.assertTrue(2 <= self.townhome_inst.num_beds <= 4)
-        self.assertTrue(1 <= self.townhome_inst.num_baths <= 3)
-        self.assertTrue(550000 <= self.townhome_inst.price <= 700000)
+        self.assertTrue(800 <= self.townhome.sqft <= 1800)
+        self.assertTrue(2 <= self.townhome.num_beds <= 4)
+        self.assertTrue(1 <= self.townhome.num_baths <= 3)
+        self.assertTrue(550000 <= self.townhome.price <= 700000)
 
     def test_duplex(self):
-        self.assertTrue(1000 <= self.duplex_inst.sqft <= 2100)
-        self.assertTrue(2 <= self.duplex_inst.num_beds <= 5)
-        self.assertTrue(2 <= self.duplex_inst.num_baths <= 4)
-        self.assertTrue(550000 <= self.duplex_inst.price <= 850000)
+        self.assertTrue(1000 <= self.duplex.sqft <= 2100)
+        self.assertTrue(2 <= self.duplex.num_beds <= 5)
+        self.assertTrue(2 <= self.duplex.num_baths <= 4)
+        self.assertTrue(550000 <= self.duplex.price <= 850000)
 
     def test_bungalow(self):
-        self.assertTrue(1100 <= self.bungalow_inst.sqft <= 2300)
-        self.assertTrue(4 <= self.bungalow_inst.num_beds <= 5)
-        self.assertTrue(3 <= self.bungalow_inst.num_baths <= 4)
-        self.assertTrue(700000 <= self.bungalow_inst.price <= 1000000)
+        self.assertTrue(1100 <= self.bungalow.sqft <= 2300)
+        self.assertTrue(4 <= self.bungalow.num_beds <= 5)
+        self.assertTrue(3 <= self.bungalow.num_baths <= 4)
+        self.assertTrue(700000 <= self.bungalow.price <= 1000000)
 
     def test_twostory(self):
         self.assertTrue(1800 <= self.twostory.sqft <= 3300)
@@ -94,25 +97,20 @@ class TestPurchase(unittest.TestCase):
         self.assertEqual(to_terminal.getvalue().strip(), expected_print)
 
     def test_gen_purchase(self):
-        result = gen_purchase(3, Mansion)
-        self.assertEqual(len(result), 3)
-        for instance in result:
+        self.assertEqual(len(self.purchase_gen_result), 3)
+        for instance in self.purchase_gen_result:
             self.assertIsInstance(instance, Mansion)
-        self.assertEqual(result[0].price, 1003413)
-        self.assertEqual(result[1].sqft, 6108)
-        self.assertEqual(result[2].num_beds, 10)
-
-    # This function requires user input-- come back here later!
-    # def test_view_purchase_list(self):
+        self.assertEqual(self.purchase_gen_result[0].price, 1003413)
+        self.assertEqual(self.purchase_gen_result[1].sqft, 6108)
+        self.assertEqual(self.purchase_gen_result[2].num_beds, 10)
 
     def test_purchase_recommend(self):
-        result = purchase_recommendation(TownHome, 150000, 100000, 3)
-        self.assertEqual(len(result), 18)
-        for instance in result:
+        self.assertEqual(len(self.purchase_rec_result), 18)
+        for instance in self.purchase_rec_result:
             self.assertIsInstance(instance, TownHome)
-        self.assertEqual(result[10].price, 581738)
-        self.assertEqual(result[7].sqft, 1155)
-        self.assertEqual(result[2].num_baths, 1)
+        self.assertEqual(self.purchase_rec_result[10].price, 562460)
+        self.assertEqual(self.purchase_rec_result[7].sqft, 1725)
+        self.assertEqual(self.purchase_rec_result[2].num_baths, 3)
 
     def tearDown(self):
         sys.stdout = sys.__stdout__

@@ -111,9 +111,6 @@ class TestRental(unittest.TestCase):
         self.assertEqual(self.rental_gen_result[1].sqft, 1896)
         self.assertEqual(self.rental_gen_result[2].num_beds, 4)
 
-    # This function requires user input-- come back here later!
-    # def test_view_purchase_list(self):
-
     def test_rental_recommendation(self):
 
         self.assertEqual(len(self.rental_recommendation_result), 15)
