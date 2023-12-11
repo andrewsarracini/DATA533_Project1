@@ -22,7 +22,7 @@ class TestRental(unittest.TestCase):
     @ classmethod
     def classSetUp(cls):
         # Placeholder here as it's stated as a requirement
-        print('Set Up Class')
+        pass
 
     def setUp(self):
         random.seed(355)
