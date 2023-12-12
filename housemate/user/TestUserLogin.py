@@ -116,6 +116,45 @@ class TestEditProfile(unittest.TestCase):
         result = edit_profile('user1', self.df)
         self.assertEqual(result, ("no_change", None))
         
+    # @patch('builtins.input', side_effect=['email', 'new_email@email.com'])
+    # def test_edit_profile_existing_field(self, mock_input):
+    #     user_profile_data = {
+    #         'name': ['User 1'],
+    #         'age': [25],
+    #         'email': ['new_email@email.com'],
+    #         'username': ['username1'],
+    #         'password': ['password1']
+    #         # Add more columns as needed
+    #     }
+    #     user_df = pd.DataFrame(user_profile_data)
+
+    #     expected_output = "Profile updated successfully!\n"
+    #     result = edit_profile('user1', user_df)
+    #     self.assertEqual(result, ("no_change", None))
+
+    #     # Add assertions to validate the behavior, for instance, check if the email is updated
+    #     self.assertEqual(user_df.loc[0, 'email'], 'new_email@email.com')
+
+    # @patch('builtins.input', side_effect=['invalid_field'])
+    # def test_edit_profile_invalid_field(self, mock_input):
+    #     user_profile_data = {
+    #         'name': ['User 1'],
+    #         'age': [25],
+    #         'email': ['new_email@email.com'],
+    #         'username': ['username1'],
+    #         'password': ['password1']
+    #         # Add more columns as needed
+    #     }
+    #     user_df = pd.DataFrame(user_profile_data)
+
+    #     expected_output = "Invalid field name. Profile not updated.\n"
+    #     result = edit_profile('user1', user_df)
+    #     self.assertEqual(result, ("no_change", None))
+
+    #     # Add assertions to validate the behavior when an invalid field is entered
+    #     # For instance, check if the profile remains unchanged
+    #     self.assertEqual(user_df.loc[0, 'email'], 'new_email@email.com')
+        
     def tearDown(self):
         # Reset or clear any changes made during the tests
         self.sample_data = None
@@ -148,6 +187,34 @@ class TestDeleteProfile(unittest.TestCase):
         expected_output = "Profile deletion canceled.\n"
         result = delete_profile('username1', self.df)
         self.assertEqual(result, '3337')
+    
+    @patch('builtins.input', side_effect=['yes'])
+    def test_delete_profile_decorator(self, mock_input):
+        # Define user data to simulate user's profile information
+        user_profile_data = {
+            'name': ['User 1'],
+            'age': [25],
+            'email': ['user1@email.com'],
+            'username': ['3337'],  # Hashed value for username to match
+            'password': ['3479']   # Hashed value for password to match
+        }
+
+        # Create a DataFrame with the user profile data
+        user_df = pd.DataFrame(user_profile_data)
+
+        # Simulate the function call and capture the output
+        with unittest.mock.patch('sys.stdout', new=StringIO()) as fake_output:
+            delete_profile('username1', user_df)  # Pass the original username for testing
+            captured_output = fake_output.getvalue().strip()
+
+        expected_output = "Profile deleted successfully!"
+
+        # Compare the captured output with the expected output
+        self.assertEqual(expected_output, captured_output)
+
+        # Additional assertions can be added to validate the behavior
+        # For instance, check if the profile is actually deleted from the DataFrame
+        self.assertEqual(len(user_df), 0)  # Assuming profile deletion means empty DataFrame
 
     def tearDown(self):
         # Remove the temporary CSV file after each test
