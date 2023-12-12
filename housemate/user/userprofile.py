@@ -3,20 +3,20 @@
 import os
 import re
 import pandas as pd
-from .security import string_hash
+from security import string_hash
 
-# UserProfile class
-class UserProfile:
+# # UserProfile class
+# class UserProfile:
 
-    def __init__(self, profile_data):
-        self.name = profile_data.get('name')
-        self.age = profile_data.get('age')
-        self.email = profile_data.get('email')
-        self.username = profile_data.get('username')
-        self.password = profile_data.get('password')
+#     def __init__(self, profile_data):
+#         self.name = profile_data.get('name')
+#         self.age = profile_data.get('age')
+#         self.email = profile_data.get('email')
+#         self.username = profile_data.get('username')
+#         self.password = profile_data.get('password')
 
-    def get_profile_info(self):
-        return f"Name: {self.name}, Age: {self.age}, Email: {self.email}, Username: {self.username}"
+#     def get_profile_info(self):
+#         return f"Name: {self.name}, Age: {self.age}, Email: {self.email}, Username: {self.username}"
 
 # Function to load the CSV file that holds the user profiles
 def load_user_profiles(file_path):
@@ -26,8 +26,13 @@ def load_user_profiles(file_path):
 
 # Function to create a new profile based on user input with validation for age, email, username, and password
 def create_profile_from_input():
-    profile_data = {}
-    profile_data['name'] = input("Enter your name: ")
+    profile_data = {
+        'name': input("Enter your name: "),
+        'age': None,
+        'email': None,
+        'username': None,
+        'password': None
+    }
 
     while True:
         age_input = input("Enter your age: ")
