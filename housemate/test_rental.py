@@ -112,7 +112,6 @@ class TestRental(unittest.TestCase):
         self.assertEqual(self.rental_gen_result[2].num_beds, 4)
 
     def test_rental_recommendation(self):
-
         self.assertEqual(len(self.rental_recommendation_result), 15)
         for instance in self.rental_recommendation_result:
             self.assertIsInstance(instance, RentalCondo)
@@ -126,7 +125,7 @@ class TestRental(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         # tearDownClass is a requirement
-        print('Tear Down Class')
+        pass
 
 
 unittest.main(argv=[''], verbosity=2, exit=False)
