@@ -3,6 +3,7 @@
 import sys
 import unittest
 
+from test_housemate import TestHousemate
 from user.TestUserLogin import TestUserProfileLoading, TestViewProfile, TestEditProfile, TestDeleteProfile
 from user.TestUserProfile import TestUserProfile, TestAppendToDataFrame, TestSaveDataFrameToCSV
 from user.TestSecurity import TestStringHash, TestReverseHash, TestCheckCredentials
@@ -19,6 +20,16 @@ if __name__ == '__main__':
     test_suite.addTest(unittest.makeSuite(TestUserProfile))
     test_suite.addTest(unittest.makeSuite(TestAppendToDataFrame))
     test_suite.addTest(unittest.makeSuite(TestSaveDataFrameToCSV))
+    test_suite.addTest(unittest.makeSuite(TestUserProfileLoading))
+    test_suite.addTest(unittest.makeSuite(TestViewProfile))
+    test_suite.addTest(unittest.makeSuite(TestEditProfile))
+    test_suite.addTest(unittest.makeSuite(TestDeleteProfile))
+    test_suite.addTest(unittest.makeSuite(TestStringHash))
+    test_suite.addTest(unittest.makeSuite(TestReverseHash))
+    test_suite.addTest(unittest.makeSuite(TestCheckCredentials))
+    test_suite.addTest(unittest.makeSuite(TestPurchase))
+    test_suite.addTest(unittest.makeSuite(TestRental))
+    test_suite.addTest(unittest.makeSuite(TestHousemate))
 
     # Create a test runner
     test_runner = unittest.TextTestRunner()

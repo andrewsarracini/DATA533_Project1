@@ -5,9 +5,9 @@ from unittest.mock import patch
 import pandas as pd
 import os
 from io import StringIO
-from userlogin import login_get_file_path, view_profile, edit_profile, delete_profile
-from userprofile import load_user_profiles
-from security import string_hash
+from .userlogin import login_get_file_path, view_profile, edit_profile, delete_profile
+from .userprofile import load_user_profiles
+from .security import string_hash
 
 class TestUserProfileLoading(unittest.TestCase):
     def setUp(self):

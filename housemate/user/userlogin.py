@@ -2,8 +2,8 @@
 
 import os
 import pandas as pd
-from security import string_hash, reverseHash, check_credentials
-from userprofile import load_user_profiles, save_dataframe_to_csv
+from .security import string_hash, reverseHash, check_credentials
+from .userprofile import load_user_profiles, save_dataframe_to_csv
 
 # Function to establish file_path and load user profiles from CSV file using load_user_profiles from userprofile.py module
 def login_get_file_path():

@@ -2,7 +2,7 @@
 
 import unittest
 import pandas as pd
-from security import string_hash, reverseHash, check_credentials
+from .security import string_hash, reverseHash, check_credentials
 
 class TestStringHash(unittest.TestCase):
     def setUp(self):

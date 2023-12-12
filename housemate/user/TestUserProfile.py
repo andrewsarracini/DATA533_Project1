@@ -6,8 +6,8 @@ import os
 import io
 from io import StringIO
 import pandas as pd
-from userprofile import load_user_profiles, create_profile_from_input, append_to_dataframe, save_dataframe_to_csv
-from security import string_hash
+from .userprofile import load_user_profiles, create_profile_from_input, append_to_dataframe, save_dataframe_to_csv
+from .security import string_hash
 
 class TestUserProfile(unittest.TestCase):
     def setUp(self):
